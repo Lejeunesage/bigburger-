@@ -13,13 +13,13 @@ if(!isset($user_id)){
 if(isset($_POST['add_to_wishlist'])){
 
    $pid = $_POST['pid'];
-   $pid = filter_var($pid, FILTER_SANITIZE_STRING);
+   $pid = htmlspecialchars($pid);
    $p_name = $_POST['p_name'];
-   $p_name = filter_var($p_name, FILTER_SANITIZE_STRING);
+   $p_name = htmlspecialchars($p_name);
    $p_price = $_POST['p_price'];
-   $p_price = filter_var($p_price, FILTER_SANITIZE_STRING);
+   $p_price = htmlspecialchars($p_price);
    $p_image = $_POST['p_image'];
-   $p_image = filter_var($p_image, FILTER_SANITIZE_STRING);
+   $p_image = htmlspecialchars($p_image);
 
    $check_wishlist_numbers = $conn->prepare("SELECT * FROM `wishlist` WHERE name = ? AND user_id = ?");
    $check_wishlist_numbers->execute([$p_name, $user_id]);
@@ -28,13 +28,13 @@ if(isset($_POST['add_to_wishlist'])){
    $check_cart_numbers->execute([$p_name, $user_id]);
 
    if($check_wishlist_numbers->rowCount() > 0){
-      $message[] = 'already added to wishlist!';
+      $message[] = 'Déja ajouter à la liste des souhait!';
    }elseif($check_cart_numbers->rowCount() > 0){
-      $message[] = 'already added to cart!';
+      $message[] = 'Déja ajouter au panier!';
    }else{
       $insert_wishlist = $conn->prepare("INSERT INTO `wishlist`(user_id, pid, name, price, image) VALUES(?,?,?,?,?)");
       $insert_wishlist->execute([$user_id, $pid, $p_name, $p_price, $p_image]);
-      $message[] = 'added to wishlist!';
+      $message[] = 'Un produit ajouter à la liste d\'envie!';
    }
 
 }
@@ -56,7 +56,7 @@ if(isset($_POST['add_to_cart'])){
    $check_cart_numbers->execute([$p_name, $user_id]);
 
    if($check_cart_numbers->rowCount() > 0){
-      $message[] = 'already added to cart!';
+      $message[] = 'Déja ajouter au panier!';
    }else{
 
       $check_wishlist_numbers = $conn->prepare("SELECT * FROM `wishlist` WHERE name = ? AND user_id = ?");
@@ -69,7 +69,7 @@ if(isset($_POST['add_to_cart'])){
 
       $insert_cart = $conn->prepare("INSERT INTO `cart`(user_id, pid, name, price, quantity, image) VALUES(?,?,?,?,?,?)");
       $insert_cart->execute([$user_id, $pid, $p_name, $p_price, $p_qty, $p_image]);
-      $message[] = 'added to cart!';
+      $message[] = 'Un produit ajouté au panier!';
    }
 
 }
@@ -77,15 +77,14 @@ if(isset($_POST['add_to_cart'])){
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>quick view</title>
+   <title>Vue rapide</title>
 
-   <!-- font awesome cdn link  -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  
 
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
@@ -98,7 +97,7 @@ if(isset($_POST['add_to_cart'])){
 
 <section class="quick-view">
 
-   <h1 class="title">quick view</h1>
+   <h1 class="title">Vue rapide</h1>
 
    <?php
       $pid = $_GET['pid'];
@@ -108,7 +107,7 @@ if(isset($_POST['add_to_cart'])){
          while($fetch_products = $select_products->fetch(PDO::FETCH_ASSOC)){ 
    ?>
    <form action="" class="box" method="POST">
-      <div class="price">$<span><?= $fetch_products['price']; ?></span>/-</div>
+      <div class="price"><span><?= $fetch_products['price']; ?></span>€</div>
       <img src="uploaded_img/<?= $fetch_products['image']; ?>" alt="">
       <div class="name"><?= $fetch_products['name']; ?></div>
       <div class="details"><?= $fetch_products['details']; ?></div>
@@ -116,7 +115,7 @@ if(isset($_POST['add_to_cart'])){
       <input type="hidden" name="p_name" value="<?= $fetch_products['name']; ?>">
       <input type="hidden" name="p_price" value="<?= $fetch_products['price']; ?>">
       <input type="hidden" name="p_image" value="<?= $fetch_products['image']; ?>">
-      <input type="number" min="1" value="1" name="p_qty" class="qty">
+      <input type="hidden" type="number" min="1" value="1" name="p_qty" class="qty">
       <input type="submit" value="add to wishlist" class="option-btn" name="add_to_wishlist">
       <input type="submit" value="add to cart" class="btn" name="add_to_cart">
    </form>
