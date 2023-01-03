@@ -32,11 +32,11 @@ if(isset($_POST['update_product'])){
    $update_product = $conn->prepare("UPDATE `products` SET name = ?, category = ?, details = ?, price = ? WHERE id = ?");
    $update_product->execute([$name, $category, $details, $price, $pid]);
 
-   $message[] = 'product updated successfully!';
+   $message[] = 'Produit mis à jour avec succès !';
 
    if(!empty($image)){
-      if($image_size > 2000000){
-         $message[] = 'image size is too large!';
+      if($image_size > 5000000){
+         $message[] = 'La taille de l\'image est trop grande !';
       }else{
 
          $update_image = $conn->prepare("UPDATE `products` SET image = ? WHERE id = ?");
@@ -45,7 +45,7 @@ if(isset($_POST['update_product'])){
          if($update_image){
             move_uploaded_file($image_tmp_name, $image_folder);
             unlink('uploaded_img/'.$old_image);
-            $message[] = 'image updated successfully!';
+            $message[] = 'Image mise à jour avec succès !';
          }
       }
    }
@@ -55,12 +55,12 @@ if(isset($_POST['update_product'])){
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>update products</title>
+   <title>Mettre à jour les produits</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
@@ -75,7 +75,7 @@ if(isset($_POST['update_product'])){
 
 <section class="update-product">
 
-   <h1 class="title">update product</h1>   
+   <h1 class="title"> Mettre à jour le produit</h1>   
 
    <?php
       $update_id = $_GET['update'];
@@ -88,26 +88,26 @@ if(isset($_POST['update_product'])){
       <input type="hidden" name="old_image" value="<?= $fetch_products['image']; ?>">
       <input type="hidden" name="pid" value="<?= $fetch_products['id']; ?>">
       <img src="uploaded_img/<?= $fetch_products['image']; ?>" alt="">
-      <input type="text" name="name" placeholder="enter product name" required class="box" value="<?= $fetch_products['name']; ?>">
-      <input type="number" name="price" min="0" placeholder="enter product price" required class="box" value="<?= $fetch_products['price']; ?>">
+      <input type="text" name="name" placeholder="Entrez le nom du produit" required class="box" value="<?= $fetch_products['name']; ?>">
+      <input type="number" name="price" min="0" placeholder="Entrez le prix du produit" required class="box" value="<?= $fetch_products['price']; ?>">
       <select name="category" class="box" required>
          <option selected><?= $fetch_products['category']; ?></option>
-         <option value="vegitables">vegitables</option>
-         <option value="fruits">fruits</option>
-         <option value="meat">meat</option>
-         <option value="fish">fish</option>
+         <option value="hamburges">Hamburgés</option>
+         <option value="a-cote">A côté</option>
+         <option value="desserts">Désserts</option>
+         <option value="boissons">Boissons</option>
       </select>
-      <textarea name="details" required placeholder="enter product details" class="box" cols="30" rows="10"><?= $fetch_products['details']; ?></textarea>
+      <textarea name="details" required placeholder="Entrer le détail du produit" class="box" cols="30" rows="10"><?= $fetch_products['details']; ?></textarea>
       <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">
       <div class="flex-btn">
-         <input type="submit" class="btn" value="update product" name="update_product">
-         <a href="admin_products.php" class="option-btn">go back</a>
+         <input type="submit" class="btn" value="Mettre à jour le produit" name="update_product">
+         <a href="admin_products.php" class="option-btn">Retourner</a>
       </div>
    </form>
    <?php
          }
       }else{
-         echo '<p class="empty">no products found!</p>';
+         echo '<p class="empty">Aucun produit trouvé !</p>';
       }
    ?>
 

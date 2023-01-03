@@ -1,5 +1,9 @@
 @import url('components.css');
 
+.header > .navbar > ul li{
+   list-style: none;
+}
+
 .dashboard .box-container{
    display: grid;
    grid-template-columns: repeat(auto-fit, minmax(27rem, 1fr));

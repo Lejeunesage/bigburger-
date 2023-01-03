@@ -28,15 +28,15 @@ if(isset($_POST['update_profile'])){
    $old_image = $_POST['old_image'];
 
    if(!empty($image)){
-      if($image_size > 2000000){
-         $message[] = 'image size is too large!';
+      if($image_size > 5000000){
+         $message[] = 'La taille de l\'image est trop grande !';
       }else{
          $update_image = $conn->prepare("UPDATE `users` SET image = ? WHERE id = ?");
          $update_image->execute([$image, $admin_id]);
          if($update_image){
             move_uploaded_file($image_tmp_name, $image_folder);
             unlink('uploaded_img/'.$old_image);
-            $message[] = 'image updated successfully!';
+            $message[] = 'Image mise à jour avec succès !';
          };
       };
    };
@@ -51,13 +51,13 @@ if(isset($_POST['update_profile'])){
 
    if(!empty($update_pass) AND !empty($new_pass) AND !empty($confirm_pass)){
       if($update_pass != $old_pass){
-         $message[] = 'old password not matched!';
+         $message[] = 'L\'ancien mot de passe ne correspond pas !';
       }elseif($new_pass != $confirm_pass){
-         $message[] = 'confirm password not matched!';
+         $message[] = 'Le mot de passe ne correspond pas !';
       }else{
          $update_pass_query = $conn->prepare("UPDATE `users` SET password = ? WHERE id = ?");
          $update_pass_query->execute([$confirm_pass, $admin_id]);
-         $message[] = 'password updated successfully!';
+         $message[] = 'Mot de passe mis à jour avec succès!';
       }
    }
 
@@ -66,12 +66,12 @@ if(isset($_POST['update_profile'])){
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>update admin profile</title>
+   <title>Mettre à jour le profil administrateur</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
@@ -87,33 +87,33 @@ if(isset($_POST['update_profile'])){
 
 <section class="update-profile">
 
-   <h1 class="title">update profile</h1>
+   <h1 class="title">Mettre à jour le profil</h1>
 
    <form action="" method="POST" enctype="multipart/form-data">
       <img src="uploaded_img/<?= $fetch_profile['image']; ?>" alt="">
       <div class="flex">
          <div class="inputBox">
-            <span>username :</span>
-            <input type="text" name="name" value="<?= $fetch_profile['name']; ?>" placeholder="update username" required class="box">
-            <span>email :</span>
-            <input type="email" name="email" value="<?= $fetch_profile['email']; ?>" placeholder="update email" required class="box">
-            <span>update pic :</span>
+            <span>Nom d'utilisateur :</span>
+            <input type="text" name="name" value="<?= $fetch_profile['name']; ?>" placeholder="Mettre à jour le nom d'utilisateur" required class="box">
+            <span>Email :</span>
+            <input type="email" name="email" value="<?= $fetch_profile['email']; ?>" placeholder="mettre à jour l'email" required class="box">
+            <span>Mettre à jour la photo :</span>
             <input type="file" name="image" accept="image/jpg, image/jpeg, image/png" class="box">
             <input type="hidden" name="old_image" value="<?= $fetch_profile['image']; ?>">
          </div>
          <div class="inputBox">
             <input type="hidden" name="old_pass" value="<?= $fetch_profile['password']; ?>">
-            <span>old password :</span>
-            <input type="password" name="update_pass" placeholder="enter previous password" class="box">
-            <span>new password :</span>
-            <input type="password" name="new_pass" placeholder="enter new password" class="box">
-            <span>confirm password :</span>
-            <input type="password" name="confirm_pass" placeholder="confirm new password" class="box">
+            <span>Ancien mot de passe :</span>
+            <input type="password" name="update_pass" placeholder="Entrer le mot de passe précédent" class="box">
+            <span>Nouveau mot de passe :</span>
+            <input type="password" name="new_pass" placeholder="Entrez un nouveau mot de passe" class="box">
+            <span>Confirmez le mot de passe :</span>
+            <input type="password" name="confirm_pass" placeholder="Confirmer le nouveau mot de passe" class="box">
          </div>
       </div>
       <div class="flex-btn">
-         <input type="submit" class="btn" value="update profile" name="update_profile">
-         <a href="admin_page.php" class="option-btn">go back</a>
+         <input type="submit" class="btn" value="Mettre à jour le profil" name="update_profile">
+         <a href="admin_page.php" class="option-btn">Retour</a>
       </div>
    </form>
 

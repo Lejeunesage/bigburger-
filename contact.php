@@ -15,7 +15,7 @@ if(isset($_POST['send'])){
    $name = $_POST['name'];
    $name = htmlspecialchars($name);
    $email = $_POST['email'];
-   $email = htmlspecialchars($name);
+   $email = htmlspecialchars($email);
    $number = $_POST['number'];
    $number = htmlspecialchars($number);
    $msg = $_POST['msg'];
@@ -25,13 +25,14 @@ if(isset($_POST['send'])){
    $select_message->execute([$name, $email, $number, $msg]);
 
    if($select_message->rowCount() > 0){
-      $message[] = 'already sent message!';
+      $message[] = '
+      Message déjà envoyé !';
    }else{
 
       $insert_message = $conn->prepare("INSERT INTO `message`(user_id, name, email, number, message) VALUES(?,?,?,?,?)");
       $insert_message->execute([$user_id, $name, $email, $number, $msg]);
 
-      $message[] = 'sent message successfully!';
+      $message[] = 'Message envoyé avec succès !';
 
    }
 
@@ -62,14 +63,14 @@ if(isset($_POST['send'])){
 
 <section class="contact">
 
-   <h1 class="title">get in touch</h1>
+   <h1 class="title">Entrer en contact avec nous</h1>
 
    <form action="" method="POST">
-      <input type="text" name="name" class="box" required placeholder="enter your name">
-      <input type="email" name="email" class="box" required placeholder="enter your email">
-      <input type="number" name="number" min="0" class="box" required placeholder="enter your number">
-      <textarea name="msg" class="box" required placeholder="enter your message" cols="30" rows="10"></textarea>
-      <input type="submit" value="send message" class="btn" name="send">
+      <input type="text" name="name" class="box" required placeholder="Nom complet">
+      <input type="email" name="email" class="box" required placeholder="Email">
+      <input type="number" name="number" min="0" class="box" required placeholder="Numero de téléphone">
+      <textarea name="msg" class="box" required placeholder="Entrer votre message" cols="30" rows="10"></textarea>
+      <input type="submit" value="Envoyer message" class="btn" name="send">
    </form>
 
 </section>

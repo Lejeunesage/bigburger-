@@ -20,7 +20,7 @@ if(isset($_POST['order'])){
    $email = htmlspecialchars($email);
    $method = $_POST['method'];
    $method = htmlspecialchars($method);
-   $address = 'flat no. '. $_POST['flat'] .' '. $_POST['street'] .' '. $_POST['city'] .' '. $_POST['state'] .' '. $_POST['country'] .' - '. $_POST['pin_code'];
+   $address = 'Appartement n°. '. $_POST['flat'] .' '. $_POST['street'] .' '. $_POST['city'] .' '. $_POST['state'] .' '. $_POST['country'] .' - '. $_POST['pin_code'];
    $address = htmlspecialchars($address);
    $placed_on = date('d-M-Y');
 
@@ -45,13 +45,13 @@ if(isset($_POST['order'])){
    if($cart_total == 0){
       $message[] = 'your cart is empty';
    }elseif($order_query->rowCount() > 0){
-      $message[] = 'order placed already!';
+      $message[] = 'Commande déjà passée!';
    }else{
       $insert_order = $conn->prepare("INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price, placed_on) VALUES(?,?,?,?,?,?,?,?,?)");
       $insert_order->execute([$user_id, $name, $number, $email, $method, $address, $total_products, $cart_total, $placed_on]);
       $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
       $delete_cart->execute([$user_id]);
-      $message[] = 'order placed successfully!';
+      $message[] = 'Commande passée avec succès !';
    }
 
 }
@@ -59,7 +59,7 @@ if(isset($_POST['order'])){
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -90,71 +90,71 @@ if(isset($_POST['order'])){
             $cart_total_price = ($fetch_cart_items['price'] * $fetch_cart_items['quantity']);
             $cart_grand_total += $cart_total_price;
    ?>
-   <p> <?= $fetch_cart_items['name']; ?> <span>(<?= '$'.$fetch_cart_items['price'].'/- x '. $fetch_cart_items['quantity']; ?>)</span> </p>
+   <p> <?= $fetch_cart_items['name']; ?> <span>(<?=$fetch_cart_items['price'].'€ x '. $fetch_cart_items['quantity']; ?>)</span> </p>
    <?php
     }
    }else{
-      echo '<p class="empty">your cart is empty!</p>';
+      echo '<p class="empty">Votre panier est vide!</p>';
    }
    ?>
-   <div class="grand-total">grand total : <span>$<?= $cart_grand_total; ?>/-</span></div>
+   <div class="grand-total">Grand total : <span><?= $cart_grand_total; ?>€</span></div>
 </section>
 
 <section class="checkout-orders">
 
    <form action="" method="POST">
 
-      <h3>place your order</h3>
+      <h3>Passer votre commande</h3>
 
       <div class="flex">
          <div class="inputBox">
-            <span>your name :</span>
-            <input type="text" name="name" placeholder="enter your name" class="box" required>
+            <span>Votre nom complet :</span>
+            <input type="text" name="name" placeholder="Entrer votre nom complet" class="box" required>
          </div>
          <div class="inputBox">
-            <span>your number :</span>
-            <input type="number" name="number" placeholder="enter your number" class="box" required>
+            <span>Votre numero :</span>
+            <input type="number" name="number" placeholder="Entrer votre numero de téléphone" class="box" required>
          </div>
          <div class="inputBox">
-            <span>your email :</span>
-            <input type="email" name="email" placeholder="enter your email" class="box" required>
+            <span>Votre email :</span>
+            <input type="email" name="email" placeholder="Entrer votre email" class="box" required>
          </div>
          <div class="inputBox">
-            <span>payment method :</span>
+            <span>Mode de paiment :</span>
             <select name="method" class="box" required>
-               <option value="cash on delivery">cash on delivery</option>
-               <option value="credit card">credit card</option>
-               <option value="paytm">paytm</option>
-               <option value="paypal">paypal</option>
+               <option value="cash on delivery">Paiement à la livraison</option>
+               <option value="paytm">MTN Mobile Money </option>
+               <option value="paypal">Moov flooz</option>
+               <option value="credit card">Cart de crédit</option>
             </select>
          </div>
          <div class="inputBox">
-            <span>address line 01 :</span>
-            <input type="text" name="flat" placeholder="e.g. flat number" class="box" required>
+            <span>Maison:</span>
+            <input type="text" name="flat" placeholder="e.g. Maison Boni" class="box" required>
          </div>
          <div class="inputBox">
-            <span>address line 02 :</span>
-            <input type="text" name="street" placeholder="e.g. street name" class="box" required>
+            <span>Quartier :</span>
+            <input type="text" name="street" placeholder="e.g. Cadjehoun" class="box" required>
          </div>
          <div class="inputBox">
-            <span>city :</span>
-            <input type="text" name="city" placeholder="e.g. mumbai" class="box" required>
+            <span>Ville :</span>
+            <input type="text" name="city" placeholder="e.g. Cotonou" class="box" required>
          </div>
          <div class="inputBox">
-            <span>state :</span>
-            <input type="text" name="state" placeholder="e.g. maharashtra" class="box" required>
+            <span>Département :</span>
+            <input type="text" name="state" placeholder="e.g. Littoral" class="box" required>
          </div>
          <div class="inputBox">
-            <span>country :</span>
-            <input type="text" name="country" placeholder="e.g. India" class="box" required>
+            <span>Pays :</span>
+            <input type="text" name="country" placeholder="e.g. Benin" class="box" required>
          </div>
          <div class="inputBox">
-            <span>pin code :</span>
+            <span>Code pin :</span>
             <input type="number" min="0" name="pin_code" placeholder="e.g. 123456" class="box" required>
          </div>
       </div>
 
-      <input type="submit" name="order" class="btn <?= ($cart_grand_total > 1)?'':'disabled'; ?>" value="place order">
+      <input type="submit" name="order" class="btn <?= ($cart_grand_total > 1)?'':'disabled'; ?>" value="Passer la commande">
 
    </form>
 

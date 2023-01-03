@@ -23,20 +23,20 @@ if(isset($_POST['submit'])){
    $select->execute([$email]);
 
    if($select->rowCount() > 0){
-      $message[] = 'user email already exist!';
+      $message[] = 'L\'adresse e-mail de l\'utilisateur existe déjà !';
    }else{
       if($pass != $cpass){
-         $message[] = 'confirm password not matched!';
+         $message[] = 'Le mot de passe ne correspond pas !';
       }else{
          $insert = $conn->prepare("INSERT INTO `users`(name, email, password, image) VALUES(?,?,?,?)");
          $insert->execute([$name, $email, $pass, $image]);
 
          if($insert){
-            if($image_size > 2000000){
-               $message[] = 'image size is too large!';
+            if($image_size > 5000000){
+               $message[] = 'La taille de l\'image est trop grande !';
             }else{
                move_uploaded_file($image_tmp_name, $image_folder);
-               $message[] = 'registered successfully!';
+               $message[] = 'Enregistré avec succès!';
                header('location:login.php');
             }
          }
@@ -49,12 +49,12 @@ if(isset($_POST['submit'])){
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>register</title>
+   <title>Inscription</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
@@ -73,7 +73,11 @@ if(isset($message)){
       echo '
       <div class="message">
          <span>'.$message.'</span>
-         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+
+         <svg  width="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5" onclick="this.parentElement.remove();">
+         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+         </svg>
+
       </div>
       ';
    }
@@ -84,14 +88,14 @@ if(isset($message)){
 <section class="form-container">
 
    <form action="" enctype="multipart/form-data" method="POST">
-      <h3>register now</h3>
-      <input type="text" name="name" class="box" placeholder="enter your name" required>
-      <input type="email" name="email" class="box" placeholder="enter your email" required>
-      <input type="password" name="pass" class="box" placeholder="enter your password" required>
-      <input type="password" name="cpass" class="box" placeholder="confirm your password" required>
+      <h3>S'inscrire maintenant</h3>
+      <input type="text" name="name" class="box" placeholder="Entre votre nom complet" required>
+      <input type="email" name="email" class="box" placeholder="Entrer votre email" required>
+      <input type="password" name="pass" class="box" placeholder="Entrer votre mot de passe" required>
+      <input type="password" name="cpass" class="box" placeholder="Confirmer votre mot de passe" required>
       <input type="file" name="image" class="box" required accept="image/jpg, image/jpeg, image/png">
-      <input type="submit" value="register now" class="btn" name="submit">
-      <p>already have an account? <a href="login.php">login now</a></p>
+      <input type="submit" value="S'inscrire" class="btn" name="submit">
+      <p>Vous avez déjà un compte? <a href="login.php">Se connecter</a></p>
    </form>
 
 </section>

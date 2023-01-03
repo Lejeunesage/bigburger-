@@ -31,11 +31,11 @@ if(isset($_POST['submit'])){
          header('location:home.php');
 
       }else{
-         $message[] = 'no user found!';
+         $message[] = 'Aucun utilisateur trouvé !';
       }
 
    }else{
-      $message[] = 'incorrect email or password!';
+      $message[] = 'Email ou mot de passe incorrect!';
    }
 
 }
@@ -43,12 +43,12 @@ if(isset($_POST['submit'])){
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>login</title>
+   <title>Connexion</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
@@ -67,7 +67,11 @@ if(isset($message)){
       echo '
       <div class="message">
          <span>'.$message.'</span>
-         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+
+         <svg width="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6" onclick="this.parentElement.remove();">
+         <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z" clip-rule="evenodd" />
+         </svg>
+
       </div>
       ';
    }
@@ -78,11 +82,11 @@ if(isset($message)){
 <section class="form-container">
 
    <form action="" method="POST">
-      <h3>login now</h3>
-      <input type="email" name="email" class="box" placeholder="enter your email" required>
-      <input type="password" name="pass" class="box" placeholder="enter your password" required>
-      <input type="submit" value="login now" class="btn" name="submit">
-      <p>don't have an account? <a href="register.php">register now</a></p>
+      <h3>Se connecter maintenant</h3>
+      <input type="email" name="email" class="box" placeholder="Entrer votre email" required>
+      <input type="password" name="pass" class="box" placeholder="Entrer votre mot de passe" required>
+      <input type="submit" value="Se connecter" class="btn" name="submit">
+      <p>Vous n'avez pas de compte ? <a href="register.php">S'inscrire maintenant</a></p>
    </form>
 
 </section>

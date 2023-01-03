@@ -28,13 +28,13 @@ if(isset($_POST['add_to_wishlist'])){
    $check_cart_numbers->execute([$p_name, $user_id]);
 
    if($check_wishlist_numbers->rowCount() > 0){
-      $message[] = 'already added to wishlist!';
+      $message[] = 'Déjà ajouté à la liste de souhaits !';
    }elseif($check_cart_numbers->rowCount() > 0){
-      $message[] = 'already added to cart!';
+      $message[] = 'Déjà ajouté au panier !';
    }else{
       $insert_wishlist = $conn->prepare("INSERT INTO `wishlist`(user_id, pid, name, price, image) VALUES(?,?,?,?,?)");
       $insert_wishlist->execute([$user_id, $pid, $p_name, $p_price, $p_image]);
-      $message[] = 'added to wishlist!';
+      $message[] = 'Ajouté à la liste de souhaits !';
    }
 
 }
@@ -56,7 +56,7 @@ if(isset($_POST['add_to_cart'])){
    $check_cart_numbers->execute([$p_name, $user_id]);
 
    if($check_cart_numbers->rowCount() > 0){
-      $message[] = 'already added to cart!';
+      $message[] = 'Déjà ajouté au panier !';
    }else{
 
       $check_wishlist_numbers = $conn->prepare("SELECT * FROM `wishlist` WHERE name = ? AND user_id = ?");
@@ -69,7 +69,7 @@ if(isset($_POST['add_to_cart'])){
 
       $insert_cart = $conn->prepare("INSERT INTO `cart`(user_id, pid, name, price, quantity, image) VALUES(?,?,?,?,?,?)");
       $insert_cart->execute([$user_id, $pid, $p_name, $p_price, $p_qty, $p_image]);
-      $message[] = 'added to cart!';
+      $message[] = 'Ajouté au panier !';
    }
 
 }
@@ -77,12 +77,12 @@ if(isset($_POST['add_to_cart'])){
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>search page</title>
+   <title>Page de recherche</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
@@ -99,8 +99,8 @@ if(isset($_POST['add_to_cart'])){
 <section class="search-form">
 
    <form action="" method="POST">
-      <input type="text" class="box" name="search_box" placeholder="search products...">
-      <input type="submit" name="search_btn" value="search" class="btn">
+      <input type="text" class="box" name="search_box" placeholder="Recherche de produits...">
+      <input type="submit" name="search_btn" value="Rechercher" class="btn">
    </form>
 
 </section>

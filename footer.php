@@ -8,7 +8,7 @@
           <a href="" class="logo">Big<span class="span">Burger+</span></a>
 
           <p class="footer-text">
-            Financial experts support or help you to to find out which way you can raise your funds more.
+              Devenez membre de notre communauté !
           </p>
 
           <ul class="social-list">
